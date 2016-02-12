@@ -3,4 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_clear_form">Vider le formulaire</string>
     <string name="action_enable_phone">Activer le téléphone</string>
+    <string name="action_wiki_region">Departement sur Wikipedia</string>
+    <string name="title_activity_result">ResultActivity</string>
+    <string name="result_name">%1$s %2$s</string>
+    <string name="result_ne">Né à %1$s (%2$s) le %3$s</string>
 </resources>

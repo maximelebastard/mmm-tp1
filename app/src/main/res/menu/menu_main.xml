@@ -15,4 +15,11 @@
         android:title="@string/action_enable_phone"
         android:checkable="true"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_wiki_region"
+        android:orderInCategory="400"
+        android:title="@string/action_wiki_region"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        app:showAsAction="collapseActionView" />
 </menu>

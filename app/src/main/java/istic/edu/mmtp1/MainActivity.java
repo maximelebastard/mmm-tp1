@@ -1,5 +1,7 @@
 package istic.edu.mmtp1;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dd.processbutton.FlatButton;
@@ -26,6 +29,10 @@ import istic.edu.mmtp1.formdata.SignInFormData;
 
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    // Messages
+    public final static String EXTRA_FORM_MESSAGE= "istic.edu.mmtp1.formMessage";
+
+
     // Components
     private RelativeLayout mainLayout;
     private EditText iptNom;
@@ -33,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     private EditText iptDateNaissance;
     private EditText iptTelephone;
     private AutoCompleteTextView iptVilleNaissance;
+    private Spinner iptDepartementNaissance;
     private FlatButton btValider;
 
     private final String DATEPICKER_DATENAISSANCE_TAG = "DATEPICKER_DATENAISSANCE_TAG";
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         iptPrenom = (EditText) findViewById(R.id.iptPrenom);
         iptDateNaissance = (EditText) findViewById(R.id.iptDateNaissance);
         iptVilleNaissance = (AutoCompleteTextView) findViewById(R.id.iptVilleNaissance);
+        iptDepartementNaissance = (Spinner) findViewById(R.id.iptDepNaissance);
         btValider = (FlatButton) findViewById(R.id.btValider);
 
         // Handle datepicker for dates
@@ -118,6 +127,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
             refreshPhoneDisplay();
         }
 
+        else if (id == R.id.action_wiki_region) {
+            String selectedRegionName = iptDepartementNaissance.getSelectedItem().toString();
+            String regionName = selectedRegionName.split(":")[1];
+
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://fr.wikipedia.org/wiki/"+regionName));
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -162,7 +180,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private void processForm() {
         SignInFormData formdata = hydrateSignInForm();
-        Toast.makeText(MainActivity.this, formdata.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this, formdata.toString(), Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(MainActivity.EXTRA_FORM_MESSAGE, formdata);
+        startActivity(intent);
     }
 
     private SignInFormData hydrateSignInForm() {
@@ -177,14 +199,14 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         iptDateNaissance.getText().toString();
 
-        SignInFormData formdata = SignInFormData.builder()
-                .nom(iptNom.getText().toString())
-                .prenom(iptPrenom.getText().toString())
-                .dateNaissance(dateNaissance)
-                .villeNaissance(iptVilleNaissance.getText().toString())
-                .build();
+        SignInFormData formdata = new SignInFormData();
+        formdata.setNom(iptNom.getText().toString());
+        formdata.setPrenom(iptPrenom.getText().toString());
+        formdata.setDateNaissance(dateNaissance);
+        formdata.setVilleNaissance(iptVilleNaissance.getText().toString());
+        formdata.setRegion(iptDepartementNaissance.getSelectedItem().toString());
 
-        if(iptTelephone != null) {
+        if (iptTelephone != null) {
             formdata.setTelephone(iptTelephone.getText().toString());
         }
 

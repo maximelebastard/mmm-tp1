@@ -1,4 +1,4 @@
-package istic.edu.mmtp1;
+package istic.edu.mmmtp;
 
 import org.junit.Test;
 

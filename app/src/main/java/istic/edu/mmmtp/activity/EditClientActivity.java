@@ -1,4 +1,4 @@
-package istic.edu.mmtp1;
+package istic.edu.mmmtp.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +14,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.dd.processbutton.FlatButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -25,9 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import istic.edu.mmtp1.formdata.SignInFormData;
+import istic.edu.mmmtp.R;
+import istic.edu.mmmtp.model.Client;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class EditClientActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     // Messages
     public final static String EXTRA_FORM_MESSAGE= "istic.edu.mmtp1.formMessage";
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_edit_client);
 
         // Components
         mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
                     Calendar defaultDate = Calendar.getInstance();
                     defaultDate.add(Calendar.YEAR, -20);
                     DatePickerDialog dpd = DatePickerDialog.newInstance(
-                            MainActivity.this,
+                            EditClientActivity.this,
                             defaultDate.get(Calendar.YEAR),
                             defaultDate.get(Calendar.MONTH),
                             defaultDate.get(Calendar.DAY_OF_MONTH)
@@ -179,15 +179,15 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void processForm() {
-        SignInFormData formdata = hydrateSignInForm();
+        Client formdata = hydrateSignInForm();
         //Toast.makeText(MainActivity.this, formdata.toString(), Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra(MainActivity.EXTRA_FORM_MESSAGE, formdata);
+        Intent intent = new Intent(this, ClientViewActivity.class);
+        intent.putExtra(EditClientActivity.EXTRA_FORM_MESSAGE, formdata);
         startActivity(intent);
     }
 
-    private SignInFormData hydrateSignInForm() {
+    private Client hydrateSignInForm() {
         // Date naissance parsing
         DateFormat dateFormat = SimpleDateFormat.getDateInstance();
         Date dateNaissance = null;
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
         iptDateNaissance.getText().toString();
 
-        SignInFormData formdata = new SignInFormData();
+        Client formdata = new Client();
         formdata.setNom(iptNom.getText().toString());
         formdata.setPrenom(iptPrenom.getText().toString());
         formdata.setDateNaissance(dateNaissance);

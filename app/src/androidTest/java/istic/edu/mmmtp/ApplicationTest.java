@@ -1,4 +1,4 @@
-package istic.edu.mmtp1;
+package istic.edu.mmmtp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
